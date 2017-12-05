@@ -10,6 +10,7 @@ The Questions the reporting tool should answer
 
 What you need installed to run the reporting tool
 Virtual Machine – This tool requires the use of a Linux-based virtual machine(VM) to run an SQL database server and an application that uses it.
+
 1.	You will be using tools called Vagrant and VirtualBox to install and manage the VM.
 2.	There are two ways to get the necessary configuration files for the VM.
 a.	You can download and unzip this file: FSND-Virtual-Machine.zip
@@ -22,8 +23,8 @@ Launching the Virtual Machine from Git Bash or similar terminal
 4.	Cd into the   /vagrant directory.
 
 Set up the news database and create necessary views.
-1.	To load the data, cd into the vagrant directory and use the command:                                     psql -d news -f newsdata.sql.
-Running this command will connect to your installed database server and execute the SQL commands in the downloaded file, creating tables and populating them with data.
+1.	To load the data, cd into the vagrant directory and use the command: psql -d news -f newsdata.sql.
+	Running this command will connect to your installed database server and execute the SQL commands in the downloaded file, 		creating tables and populating them with data.
 2.	Use the command:  psql -d news to connect to database.
 3.	Create the following views:
 
@@ -39,25 +40,28 @@ article_view
 author_view
 
 	create view author_view as select name,
-       sum(article_view.views) as total
-from article_view, authors
-where authors.id = article_view.author
-group by authors.name
-order by total desc;
+    	sum(article_view.views) as total
+	from article_view, authors
+	where authors.id = article_view.author
+	group by authors.name
+	order by total desc;
 
 request_errors_view
 
 	create view request_errors_view as select date(time),	
 	round(100.0*sum(case log.status when '200 OK'
 	then 0 else 1 end)
-       /count(log.status),2) as "Percent Error"
+   	/count(log.status),2) as "Percent Error"
 	from log group by date(time)
 	order by "Percent Error" desc;
 
 Running the queries requires.
-1.	Entering the vagrant directory inside of the Virtual Machine and
-Running the following command:
-$ python newslogs.py
+1.	Clone this git depository to get the newslogs.py script:  
+    	https://github.com/madtech2014/Log-Analysis-FSND.git
+	
+2.	Cd into the directory Log-Analysis-FSND and
+   	run the following command:
+   	$ python newslogs.py
 
 Resources:
 -Udacity 
@@ -68,4 +72,6 @@ Resources:
 -https://www.codecademy.com/learn
 -http://brackets.io/
 -https://www.python.org/
+
+
 
